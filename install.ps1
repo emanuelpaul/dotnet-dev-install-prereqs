@@ -1,3 +1,5 @@
+#irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/install.ps1 | iex
+
 Write-Information 'Installing wsl...'  -InformationAction Continue
 wsl --install
 
@@ -11,6 +13,9 @@ Install-Script -Name winget-install -Force
 Write-Information 'Installing winget...'  -InformationAction Continue
 winget-install.ps1
 sleep 5
+
+Write-Information 'Getting winget-apps.json...'  -InformationAction Continue
+irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/winget-apps.json -o winget-apps.json
 
 Write-Information 'Starting to install apps using winget...'  -InformationAction Continue
 winget import winget-apps.json
