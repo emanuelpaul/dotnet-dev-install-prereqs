@@ -4,7 +4,7 @@ Write-Information 'Installing wsl...'  -InformationAction Continue
 wsl --install
 
 Write-Information 'Adding PSGallery'  -InformationAction Continue
-Write-Warning 'If propted to install NuGet choose Y'
+Write-Warning 'If prompted to install NuGet choose Y'
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
 Write-Information 'Getting winget install script...'  -InformationAction Continue
