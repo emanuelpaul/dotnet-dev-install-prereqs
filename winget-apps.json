@@ -7,55 +7,10 @@
 			"Packages" : 
 			[
 				{
-					"PackageIdentifier" : "Bitwarden.Bitwarden"
-				},
-				{
-					"PackageIdentifier" : "Brave.Brave"
-				},
-				{
-					"PackageIdentifier" : "Ditto.Ditto"
-				},
-				{
-					"PackageIdentifier" : "Docker.DockerDesktop"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.Teams"
-				},
-				{
-					"PackageIdentifier" : "SlackTechnologies.Slack"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.SQLServerManagementStudio"
-				},
-				{
-					"PackageIdentifier" : "gerardog.gsudo"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VisualStudioCode"
-				},
-				{
 					"PackageIdentifier" : "Microsoft.PowerShell"
 				},
 				{
 					"PackageIdentifier" : "JanDeDobbeleer.OhMyPosh"
-				},
-				{
-					"PackageIdentifier" : "Git.Git"
-				},
-				{
-					"PackageIdentifier" : "7zip.7zip"
-				},
-				{
-					"PackageIdentifier" : "mRemoteNG.mRemoteNG"
-				},
-				{
-					"PackageIdentifier" : "GitHub.cli"
-				},
-				{
-					"PackageIdentifier" : "Mozilla.Firefox"
-				},
-				{
-					"PackageIdentifier" : "Google.Chrome"
 				},
 				{
 					"PackageIdentifier" : "Microsoft.WindowsTerminal"

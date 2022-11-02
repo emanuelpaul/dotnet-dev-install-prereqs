@@ -59,14 +59,33 @@ function Install-Apps {
     winget install Microsoft.VisualStudio.2022.Professional -s winget --override "--wait --quiet --add Microsoft.VisualStudio.Workload.Node --add Microsoft.VisualStudio.Workload.Data --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb --add Microsoft.Net.Component.4.8.TargetingPack --add Microsoft.Net.ComponentGroup.4.8.DeveloperTools --add Microsoft.Net.Component.4.8.1.SDK --add Microsoft.Net.Component.4.8.1.TargetingPack --add Microsoft.Net.ComponentGroup.4.8.1.DeveloperTools --add Microsoft.Net.Core.Component.SDK.2.1 --add Microsoft.NetCore.ComponentGroup.DevelopmentTools.2.1 --add wasm.tools --add Microsoft.NetCore.Component.Runtime.3.1"
 }
 
-function ChangeFont-WindowsTerminal {
-    $settingsFile = "$env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
-    if (Test-Path -Path $settingsFile ) {
-        Write-Output 'ren old file'
-        ren $settingsFile $settingsFile.old
+function Create-Bak-When-Exists {
+    param  
+    (  
+        $file
+    ) 
+
+    if (Test-Path -Path $file ) {
+        Write-Output "File $file existis. Creating backup copy $file.bak"
+        cp $settingsFile $settingsFile.bak
     }
-    Write-Output 'copy settings file'
+}
+
+function ChangeFont-WindowsTerminal {
+    Write-Output 'Changing default font for windows terminal...'
+    $settingsFile = "$env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+    Create-Bak-When-Exists -file $settingsFile
+    irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/settings.json -o settings.json
     cp .\settings.json $settingsFile -Force
+}
+
+function Set-Powershell-Profile {
+    Write-Output 'Setting powershell profile'
+    Install-Module PSReadLine -Force
+    Install-Module -Name Terminal-Icons -Repository PSGallery
+    irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/Microsoft.PowerShell_profile.ps1 -o Microsoft.PowerShell_profile.ps1
+    Create-Bak-When-Exists -file $PROFILE
+    cp Microsoft.PowerShell_profile.ps1 $PROFILE -Force
 }
 
 Install-Apps
@@ -76,5 +95,7 @@ $fontFiles = Get-Fonts
 Install-Fonts -fontsToInstall $fontFiles
 
 ChangeFont-WindowsTerminal
+
+Set-Powershell-Profile
 
 shutdown -r -t 60
