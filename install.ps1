@@ -36,7 +36,7 @@ function Get-Fonts {
 
 function Install-Apps {    
     Write-Output 'Adding PSGallery'
-    Write-Warning 'If prompted to install NuGet choose Y'
+    Write-Warning 'If prompted to install NuGet press ENTER'
     Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
     Write-Output 'Installing wsl...'
@@ -47,9 +47,9 @@ function Install-Apps {
     
     Write-Output 'Installing winget...'
     winget-install.ps1
-    sleep 5
-    
+
     Write-Output 'Getting winget-apps.json...'
+    sleep 5    
     irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/winget-apps.json -o winget-apps.json
     
     Write-Output 'Starting to install apps using winget...'
@@ -59,10 +59,22 @@ function Install-Apps {
     winget install Microsoft.VisualStudio.2022.Professional -s winget --override "--wait --quiet --add Microsoft.VisualStudio.Workload.Node --add Microsoft.VisualStudio.Workload.Data --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb --add Microsoft.Net.Component.4.8.TargetingPack --add Microsoft.Net.ComponentGroup.4.8.DeveloperTools --add Microsoft.Net.Component.4.8.1.SDK --add Microsoft.Net.Component.4.8.1.TargetingPack --add Microsoft.Net.ComponentGroup.4.8.1.DeveloperTools --add Microsoft.Net.Core.Component.SDK.2.1 --add Microsoft.NetCore.ComponentGroup.DevelopmentTools.2.1 --add wasm.tools --add Microsoft.NetCore.Component.Runtime.3.1"
 }
 
+function ChangeFont-WindowsTerminal {
+    $settingsFile = "$env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+    if (Test-Path -Path $settingsFile ) {
+        Write-Output 'ren old file'
+        ren $settingsFile $settingsFile.old
+    }
+    Write-Output 'copy settings file'
+    cp .\settings.json $settingsFile -Force
+}
+
 Install-Apps
 
 $fontFiles = Get-Fonts
 
 Install-Fonts -fontsToInstall $fontFiles
+
+ChangeFont-WindowsTerminal
 
 shutdown -r -t 60
