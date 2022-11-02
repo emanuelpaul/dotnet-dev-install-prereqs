@@ -70,7 +70,7 @@ function admin
 }
 
 
-oh-my-posh --init --shell pwsh --config ~/jandedobbeleer.omp.json | iex
+oh-my-posh --init --shell pwsh --config "$HOME\\.oh-my-posh\\dotnet-oh-my-posh.json" | iex
 
 
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {

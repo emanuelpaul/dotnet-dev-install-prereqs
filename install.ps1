@@ -76,6 +76,17 @@ function ChangeFont-WindowsTerminal {
     cp .\settings.json $settingsFile -Force
 }
 
+function Copy-Oh-my-posh-config {
+    Write-Output 'Setting oh-my-posh config...'
+    irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/dotnet-oh-my-posh.json -o dotnet-oh-my-posh.json
+    $ohMyPoshDir = $HOME + "\\.oh-my-posh";
+    if (!(Test-Path -Path $ohMyPoshDir)){
+        md $ohMyPoshDir
+    }
+
+    cp dotnet-oh-my-posh.json "$ohMyPoshDir\dotnet-oh-my-posh.json"
+}
+
 function Change-Powershell-Profile {
     Write-Output 'Changing powershell profile...'
     Install-Module PSReadLine -Force
@@ -92,6 +103,8 @@ $fontFiles = Get-Fonts
 Install-Fonts -fontsToInstall $fontFiles
 
 ChangeFont-WindowsTerminal
+
+Copy-Oh-my-posh-config
 
 Change-Powershell-Profile
 
