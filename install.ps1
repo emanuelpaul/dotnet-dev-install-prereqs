@@ -54,9 +54,6 @@ function Install-Apps {
     
     Write-Output 'Starting to install apps using winget...'
     winget import winget-apps.json
-    
-    Write-Output 'Installing Visual Studio 2022 with dependencies...'
-    #winget install Microsoft.VisualStudio.2022.Professional -s winget --override "--wait --quiet --add Microsoft.VisualStudio.Workload.Node --add Microsoft.VisualStudio.Workload.Data --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb --add Microsoft.Net.Component.4.8.TargetingPack --add Microsoft.Net.ComponentGroup.4.8.DeveloperTools --add Microsoft.Net.Component.4.8.1.SDK --add Microsoft.Net.Component.4.8.1.TargetingPack --add Microsoft.Net.ComponentGroup.4.8.1.DeveloperTools --add Microsoft.Net.Core.Component.SDK.2.1 --add Microsoft.NetCore.ComponentGroup.DevelopmentTools.2.1 --add wasm.tools --add Microsoft.NetCore.Component.Runtime.3.1"
 }
 
 function Create-Bak-When-Exists {
@@ -66,8 +63,8 @@ function Create-Bak-When-Exists {
     ) 
 
     if (Test-Path -Path $file ) {
-        Write-Output "File $file existis. Creating backup copy $file.bak"
-        cp $settingsFile $settingsFile.bak
+        Write-Output "File $file exists. Creating backup copy $file.bak"
+        cp $file $file.bak
     }
 }
 
@@ -98,4 +95,7 @@ ChangeFont-WindowsTerminal
 
 Change-Powershell-Profile
 
-#shutdown -r -t 60
+Write-Output 'Installing Visual Studio 2022 with dependencies...'
+winget install Microsoft.VisualStudio.2022.Professional -s winget --override "--wait --quiet --add Microsoft.VisualStudio.Workload.Node --add Microsoft.VisualStudio.Workload.Data --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb --add Microsoft.Net.Component.4.8.TargetingPack --add Microsoft.Net.ComponentGroup.4.8.DeveloperTools --add Microsoft.Net.Component.4.8.1.SDK --add Microsoft.Net.Component.4.8.1.TargetingPack --add Microsoft.Net.ComponentGroup.4.8.1.DeveloperTools --add Microsoft.Net.Core.Component.SDK.2.1 --add Microsoft.NetCore.ComponentGroup.DevelopmentTools.2.1 --add wasm.tools --add Microsoft.NetCore.Component.Runtime.3.1"
+
+shutdown -r -t 60
