@@ -79,8 +79,8 @@ function ChangeFont-WindowsTerminal {
     cp .\settings.json $settingsFile -Force
 }
 
-function Set-Powershell-Profile {
-    Write-Output 'Setting powershell profile'
+function Change-Powershell-Profile {
+    Write-Output 'Changing powershell profile...'
     Install-Module PSReadLine -Force
     Install-Module -Name Terminal-Icons -Repository PSGallery
     irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/Microsoft.PowerShell_profile.ps1 -o Microsoft.PowerShell_profile.ps1
@@ -96,6 +96,6 @@ Install-Fonts -fontsToInstall $fontFiles
 
 ChangeFont-WindowsTerminal
 
-Set-Powershell-Profile
+Change-Powershell-Profile
 
-shutdown -r -t 60
+#shutdown -r -t 60
