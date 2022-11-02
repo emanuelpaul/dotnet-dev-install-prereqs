@@ -19,9 +19,6 @@
 					"PackageIdentifier" : "Docker.DockerDesktop"
 				},
 				{
-					"PackageIdentifier" : "Microsoft.WindowsTerminal"
-				},
-				{
 					"PackageIdentifier" : "Microsoft.Teams"
 				},
 				{
@@ -59,6 +56,9 @@
 				},
 				{
 					"PackageIdentifier" : "Google.Chrome"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.WindowsTerminal"
 				}
 			],
 			"SourceDetails" : 
