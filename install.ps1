@@ -68,12 +68,30 @@ function Create-Bak-When-Exists {
     }
 }
 
-function ChangeFont-WindowsTerminal {
-    Write-Output 'Changing default font for windows terminal...'
+function HasProperty($object, $propertyName)
+{
+    $propertyName -in $object.PSobject.Properties.Name
+}
+
+function Set-default-font-wt {
+    Write-Output "Setting default font windows terminal..."
+    Start-Process -FilePath "wt" -WindowStyle Hidden
+    sleep 3
     $settingsFile = "$env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
     Create-Bak-When-Exists -file $settingsFile
-    irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/settings.json -o settings.json
-    cp .\settings.json $settingsFile -Force
+    $json = Get-Content -Path $settingsFile -Raw
+    $settings = $json | ConvertFrom-Json
+    if(-Not (HasProperty -object $settings.profiles.defaults -propertyName "font")){
+        $fontFace = '{ "face" : "CaskaydiaCove NF" }' | ConvertFrom-Json
+        $settings.profiles.defaults | Add-Member -Name "font" -Value $fontFace -MemberType NoteProperty
+    }else {
+        if(-Not (HasProperty -object $settings.profiles.defaults.font -propertyName "face")){
+            $settings.profiles.defaults.font | Add-Member -Name "face" -Value "CaskaydiaCove NF" -MemberType NoteProperty
+        }else{
+            $settings.profiles.defaults.font.face="CaskaydiaCove NF"
+        }
+    }
+    $settings | ConvertTo-Json -Depth 9 | Out-File -FilePath $settingsFile -Encoding utf8
 }
 
 function Copy-Oh-my-posh-config {
@@ -91,18 +109,36 @@ function Change-Powershell-Profile {
     Write-Output 'Changing powershell profile...'
     Install-Module PSReadLine -Force
     Install-Module -Name Terminal-Icons -Repository PSGallery
+    pwsh -Command "Install-Module PSReadLine -Force; Install-Module -Name Terminal-Icons -Repository PSGallery" #install in powershell 7
     irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/Microsoft.PowerShell_profile.ps1 -o Microsoft.PowerShell_profile.ps1
     Create-Bak-When-Exists -file $PROFILE
     cp Microsoft.PowerShell_profile.ps1 $PROFILE -Force
+
+    $windowsPowershellProfile = "$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+    Create-Bak-When-Exists -file $windowsPowershellProfile
+    cp Microsoft.PowerShell_profile.ps1 $windowsPowershellProfile -Force
+
+    $powershell7Dir = "$HOME\Documents\PowerShell"
+    $powershell7Profile = "$powershell7Dir\Microsoft.PowerShell_profile.ps1"
+    if (-Not(Test-Path -Path $powershell7Dir )) {
+        mkdir $powershell7Dir -Force
+    }
+    else{
+        Create-Bak-When-Exists -file $powershell7Profile
+    }
+    cp Microsoft.PowerShell_profile.ps1 $powershell7Profile -Force
 }
 
 Install-Apps
+
+# refresh path variable
+$Env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
 
 $fontFiles = Get-Fonts
 
 Install-Fonts -fontsToInstall $fontFiles
 
-ChangeFont-WindowsTerminal
+Set-default-font-wt
 
 Copy-Oh-my-posh-config
 
