@@ -48,7 +48,7 @@ function gcom
     git add .
     git commit -m "$args"
 }
-function gccomp
+function gcomp
 {
     git add .
     git commit -m "$args"
