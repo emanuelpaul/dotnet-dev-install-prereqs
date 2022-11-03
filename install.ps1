@@ -110,24 +110,25 @@ function Change-Powershell-Profile {
     Install-Module PSReadLine -Force
     Install-Module -Name Terminal-Icons -Repository PSGallery
     pwsh -Command "Install-Module PSReadLine -Force; Install-Module -Name Terminal-Icons -Repository PSGallery" #install in powershell 7
-    irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/Microsoft.PowerShell_profile.ps1 -o Microsoft.PowerShell_profile.ps1
-    Create-Bak-When-Exists -file $PROFILE
-    cp Microsoft.PowerShell_profile.ps1 $PROFILE -Force
 
+    irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/Microsoft.PowerShell_profile.ps1 -o Microsoft.PowerShell_profile.ps1
     $windowsPowershellProfile = "$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
     Create-Bak-When-Exists -file $windowsPowershellProfile
-    cp Microsoft.PowerShell_profile.ps1 $windowsPowershellProfile -Force
+    cp .\Microsoft.PowerShell_profile.ps1 $windowsPowershellProfile -Force
 
+    irm https://raw.githubusercontent.com/emanuelpaul/dotnet-dev-install-prereqs/dev/Microsoft.PowerShell_profile.ps1 -o Microsoft.PowerShell_profile-core.ps1
     $powershell7Dir = "$HOME\Documents\PowerShell"
     $powershell7Profile = "$powershell7Dir\Microsoft.PowerShell_profile.ps1"
     if (-Not(Test-Path -Path $powershell7Dir )) {
         mkdir $powershell7Dir -Force
     }
-    else{
+    else {
         Create-Bak-When-Exists -file $powershell7Profile
     }
-    cp Microsoft.PowerShell_profile.ps1 $powershell7Profile -Force
+    cp .\Microsoft.PowerShell_profile-core.ps1 $powershell7Profile -Force
 }
+
+cd $env:TEMP 
 
 Install-Apps
 
