@@ -60,14 +60,10 @@ function pkill($name) {
 function pgrep($name) {
     Get-Process $name
 }
-function k($args)
-{
-    kubectl $args
-}
-function admin
-{
-    gsudo
-}
+
+Set-Alias -Name k -Value kubectl
+
+Set-Alias -Name admin -Value gsudo
 
 
 oh-my-posh --init --shell pwsh --config "$HOME\\.oh-my-posh\\dotnet-oh-my-posh.json" | iex
