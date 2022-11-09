@@ -58,6 +58,9 @@
 					"PackageIdentifier" : "Google.Chrome"
 				},
 				{
+					"PackageIdentifier" : "Google.CloudSDK"
+				},
+				{
 					"PackageIdentifier" : "Microsoft.WindowsTerminal"
 				}
 			],
