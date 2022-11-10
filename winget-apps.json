@@ -49,6 +49,9 @@
 					"PackageIdentifier" : "mRemoteNG.mRemoteNG"
 				},
 				{
+					"PackageIdentifier" : "Microsoft.DotNet.SDK.6"
+				},
+				{
 					"PackageIdentifier" : "GitHub.cli"
 				},
 				{
